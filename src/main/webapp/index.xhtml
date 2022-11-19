@@ -20,9 +20,23 @@
 
             <h:outputText value="#{msg['producto.texto.noexiste']}" rendered="#{empty productoController.listado}"
                           class="alert alert-warning"/>
+
+            <h:form>
+                <div class="p-field p-grid p-my-2">
+                    <label for="textoBuscar" class="p-col-fixed" style="width: 100px;">Buscar</label>
+                    <div class="p-col">
+                        <p:inputText id="textoBuscar" value="#{productoController.textoBuscar}" placeholder="Buscar...">
+                            <p:ajax listener="#{productoController.buscar}" event="keyup" update="mostrar tabla"/>
+                        </p:inputText>
+                    </div>
+                    <div class="p-col">
+                        <h:outputText value="#{productoController.textoBuscar}" id="mostrar"/>
+                    </div>
+                </div>
+            </h:form>
             <p:dataTable id="tabla" value="#{productoController.listado}" var="prod"
                          rendered="#{not empty productoController.listado}"
-                         style="max-width:65%;">
+                         style="max-width:90%;">
                 <p:column headerText="#{msg['producto.id']}">
                     <h:outputText value="#{prod.id}"/>
                 </p:column>

@@ -9,7 +9,7 @@ import java.util.List;
 
 
 @RequestScoped
-public class ProductoRepositoryImpl implements CrudRepository<Producto>{
+public class ProductoRepositoryImpl implements ProductoRepository{
     @Inject
     private EntityManager em;
 
@@ -39,5 +39,12 @@ public class ProductoRepositoryImpl implements CrudRepository<Producto>{
     public void eliminar(Long id) {
         Producto producto = porId(id);
         em.remove(producto);
+    }
+
+    @Override
+    public List<Producto> buscarPorNombre(String nombre) {
+        return em.createQuery("SELECT p FROM Producto p LEFT OUTER JOIN FETCH p.categoria WHERE p.nombre LIKE :nombre", Producto.class)
+                .setParameter("nombre", "%"+nombre+"%")
+                .getResultList();
     }
 }
