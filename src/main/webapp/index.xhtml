@@ -36,7 +36,11 @@
             </h:form>
             <p:dataTable id="tabla" value="#{productoController.listado}" var="prod"
                          rendered="#{not empty productoController.listado}"
-                         style="max-width:90%;">
+                         style="max-width:90%;" rows="5"
+                         paginator="true" paginatorPosition="both"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                         rowsPerPageTemplate="5,10,{ShowAll|'All'}">
                 <p:column headerText="#{msg['producto.id']}">
                     <h:outputText value="#{prod.id}"/>
                 </p:column>
