@@ -17,39 +17,27 @@
     </h:head>
     <h:body>
 
-        <nav class="navbar navbar-expand-lg bg-light">
-            <div class="container-fluid">
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <h:link outcome="index" value="#{msg['navbar.texto.inicio']}" class="nav-link active"/>
-                        </li>
-                        <li class="nav-item">
-                            <h:link outcome="form" value="#{msg['navbar.texto.crear']}" class="nav-link"/>
-                        </li>
-                        <li class="nav-item">
-                            <h:form>
-                                <h:selectOneMenu value="#{lenguajeController.lenguaje}"
-                                valueChangeListener="#{lenguajeController.seleccionar}"
-                                onchange="submit()" class="form-select">
-                                    <f:selectItem itemLabel="#{msg['navbar.texto.cambiar.lenguaje']}" itemValue="es"/>
-                                    <f:selectItems value="#{lenguajeController.lenguajesSoportados}"/>
-                                </h:selectOneMenu>
-                            </h:form>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <h:form>
+        <p:menubar>
+            <p:menuitem value="#{msg['navbar.texto.inicio']}" outcome="index" icon="pi pi-fw pi-home"/>
+            <p:menuitem value="#{msg['navbar.texto.crear']}" outcome="form" icon="pi pi-fw pi-plus"/>
+            <p:menuitem  icon="pi pi-fw pi-flag">
+
+                    <p:selectOneMenu value="#{lenguajeController.lenguaje}"
+                                     valueChangeListener="#{lenguajeController.seleccionar}"
+                                     onchange="submit()">
+                        <f:selectItem itemLabel="#{msg['navbar.texto.cambiar.lenguaje']}" itemValue="es"/>
+                        <f:selectItems value="#{lenguajeController.lenguajesSoportados}"/>
+                    </p:selectOneMenu>
+
+            </p:menuitem>
+        </p:menubar>
+        </h:form>
 
         <p:card>
-
-            <h:messages globalOnly="true" styleClass="alert" errorClass="alert alert-danger"
-                        infoClass="alert alert-success" warnClass="alert alert-warning"/>
+            <p:messages globalOnly="true" closable="true"/>
 
             <ui:insert name="content"/>
-
-
             <p:divider/>
 
             <footer style="clear: both;">
@@ -60,7 +48,6 @@
 
                 <ui:insert name="js"/>
             </footer>
-
         </p:card>
     </h:body>
 

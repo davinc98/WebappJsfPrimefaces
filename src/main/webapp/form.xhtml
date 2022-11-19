@@ -56,7 +56,7 @@
                     <p:message for="categoria" style="color:red;"/>
 
                     <p:commandButton value="#{producto.id>0?msg['producto.boton.editar']:msg['producto.boton.crear']}" action="#{productoController.guardar}"
-                                     class="btn btn-primary"/>
+                                     class="ui-button-outlined ui-button-success" ajax="false"/>
                     <h:inputHidden value="#{producto.id}"/>
                     <p>&#160;</p>
 
