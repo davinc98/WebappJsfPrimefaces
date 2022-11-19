@@ -18,9 +18,11 @@
                 <p:commandButton value="#{msg['navbar.texto.crear']}" action="form.xhtml" class="p-my-2"/>
             </h:form>
 
-            <h:outputText value="#{msg['producto.texto.noexiste']}" rendered="#{empty listado}"
+            <h:outputText value="#{msg['producto.texto.noexiste']}" rendered="#{empty productoController.listado}"
                           class="alert alert-warning"/>
-            <p:dataTable value="#{listado}" var="prod" rendered="#{not empty listado}" style="max-width:65%;">
+            <p:dataTable id="tabla" value="#{productoController.listado}" var="prod"
+                         rendered="#{not empty productoController.listado}"
+                         style="max-width:65%;">
                 <p:column headerText="#{msg['producto.id']}">
                     <h:outputText value="#{prod.id}"/>
                 </p:column>
@@ -66,7 +68,7 @@
                     <h:form id="eliminarForm">
                         <p:commandButton value="#{msg['producto.boton.eliminar']}" action="#{productoController.eliminar(prod)}"
                                        onclick="return confirm('Esta seguro que desea eliminar?')"
-                                         class="ui-button-danger"/>
+                                         class="ui-button-danger" update="tabla"/>
                     </h:form>
                 </p:column>
 

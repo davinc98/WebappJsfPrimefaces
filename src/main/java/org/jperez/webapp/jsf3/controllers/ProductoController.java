@@ -1,6 +1,7 @@
 package org.jperez.webapp.jsf3.controllers;
 
 
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.inject.Model;
@@ -34,6 +35,12 @@ public class ProductoController {
     @Inject
     private ResourceBundle bundle;
 
+    private List<Producto> listado;
+
+    @PostConstruct
+    public void init(){
+        this.listado = service.listar();
+    }
 
     public ProductoController() {
         this.facesContext = FacesContext.getCurrentInstance();
@@ -47,12 +54,12 @@ public class ProductoController {
         return bundle.getString("producto.texto.titulo");
     }
 
-    @Produces
-    @RequestScoped
-    @Named("listado")
-    public List<Producto> findAll() {
-        return service.listar();
-    }
+//    @Produces
+//    @RequestScoped
+//    @Named("listado")
+//    public List<Producto> findAll() {
+//        return service.listar();
+//    }
 
     @Produces
     @Model
@@ -82,7 +89,8 @@ public class ProductoController {
                     new FacesMessage(String.format(bundle.getString("producto.mensaje.crear"), producto.getNombre())));
         }
         service.guardar(producto);
-        return "index.xhtml?faces-redirect=true";
+        this.listado = service.listar();
+        return "index.xhtml";
     }
 
     public String editar(Long id) {
@@ -90,11 +98,11 @@ public class ProductoController {
         return "form.xhtml";
     }
 
-    public String eliminar(Producto prod) {
+    public void eliminar(Producto prod) {
         service.eliminar(prod.getId());
         facesContext.addMessage(null,
                 new FacesMessage(String.format(bundle.getString("producto.mensaje.eliminar"), prod.getNombre())));
-        return "index.xhtml?faces-redirect=true";
+        this.listado = service.listar();
     }
 
     public Long getId() {
@@ -103,5 +111,13 @@ public class ProductoController {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<Producto> getListado() {
+        return listado;
+    }
+
+    public void setListado(List<Producto> listado) {
+        this.listado = listado;
     }
 }
