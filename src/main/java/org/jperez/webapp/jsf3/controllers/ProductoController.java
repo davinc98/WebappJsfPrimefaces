@@ -1,9 +1,12 @@
 package org.jperez.webapp.jsf3.controllers;
 
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.inject.Model;
 import jakarta.enterprise.inject.Produces;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import org.jperez.webapp.jsf3.entities.Categoria;
@@ -21,8 +24,9 @@ public class ProductoController {
 
     private Producto producto;
 
-//    @Inject
-//    private FacesContext facesContext;
+    //    @Inject
+    @ApplicationScoped
+    private FacesContext facesContext;
 
     @Inject
     private ProductoService service;
@@ -31,25 +35,31 @@ public class ProductoController {
     private ResourceBundle bundle;
 
 
+    public ProductoController() {
+        this.facesContext = FacesContext.getCurrentInstance();
+        facesContext.getExternalContext().getFlash().setKeepMessages(true);
+    }
+
+
     @Produces
     @Model
-    public  String titulo(){
+    public String titulo() {
         return bundle.getString("producto.texto.titulo");
     }
 
     @Produces
     @RequestScoped
     @Named("listado")
-    public List<Producto> findAll(){
+    public List<Producto> findAll() {
         return service.listar();
     }
 
     @Produces
     @Model
-    public Producto producto(){
+    public Producto producto() {
         this.producto = new Producto();
-        if(id!=null && id>0){
-            service.porId(id).ifPresent(p->{
+        if (id != null && id > 0) {
+            service.porId(id).ifPresent(p -> {
                 this.producto = p;
             });
         }
@@ -58,32 +68,32 @@ public class ProductoController {
 
     @Produces
     @Model
-    public List<Categoria> categorias(){
+    public List<Categoria> categorias() {
         return service.listarCategorias();
     }
 
-    public String guardar(){
-        service.guardar(producto);
+    public String guardar() {
         System.out.println(producto);
-        if(producto.getId()!=null && producto.getId()>0){
-//            facesContext.addMessage(null,
-//                    new FacesMessage(String.format(bundle.getString("producto.mensaje.editar"), producto.getNombre())));
-        }else{
-//            facesContext.addMessage(null,
-//                    new FacesMessage(String.format(bundle.getString("producto.mensaje.crear"), producto.getNombre())));
+        if (producto.getId() != null && producto.getId() > 0) {
+            facesContext.addMessage(null,
+                    new FacesMessage(String.format(bundle.getString("producto.mensaje.editar"), producto.getNombre())));
+        } else {
+            facesContext.addMessage(null,
+                    new FacesMessage(String.format(bundle.getString("producto.mensaje.crear"), producto.getNombre())));
         }
+        service.guardar(producto);
         return "index.xhtml?faces-redirect=true";
     }
 
-    public String editar(Long id){
+    public String editar(Long id) {
         this.id = id;
         return "form.xhtml";
     }
 
-    public String eliminar(Producto prod){
+    public String eliminar(Producto prod) {
         service.eliminar(prod.getId());
-//        facesContext.addMessage(null,
-//                new FacesMessage(String.format(bundle.getString("producto.mensaje.eliminar"), prod.getNombre())));
+        facesContext.addMessage(null,
+                new FacesMessage(String.format(bundle.getString("producto.mensaje.eliminar"), prod.getNombre())));
         return "index.xhtml?faces-redirect=true";
     }
 
