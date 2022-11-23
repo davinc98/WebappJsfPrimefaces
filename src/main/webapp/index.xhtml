@@ -14,7 +14,7 @@
 
             <p:divider/>
 
-            <h:form id="crearForm">
+            <h:form id="crearForm" rendered="#{p:ifGranted('ADMIN')}">
                 <p:commandButton value="#{msg['navbar.texto.crear']}" class="p-my-2"
                                  onclick="PF('dialogForm').show()" icon="pi pi-plus-circle">
                     <p:resetInput target="formProducto"/>
@@ -70,7 +70,7 @@
                     <h:outputText value="#{prod.categoria.nombre}"/>
                 </p:column>
 
-                <p:column headerText="#{msg['producto.boton.editar']}">
+                <p:column headerText="#{msg['producto.boton.editar']}" rendered="#{p:ifGranted('ADMIN')}">
                     <h:form id="editarForm">
                         <p:commandButton value="#{msg['producto.boton.editar']}" action="#{productoController.editar(prod.id)}"
                                        class="ui-button-success" onclick="PF('dialogForm').show()" icon="pi pi-save" update="formProducto">
@@ -79,7 +79,7 @@
                     </h:form>
                 </p:column>
 
-                <p:column headerText="#{msg['producto.boton.eliminar']}">
+                <p:column headerText="#{msg['producto.boton.eliminar']}" rendered="#{p:ifGranted('ADMIN')}">
                     <h:form id="eliminarForm">
                         <p:commandButton value="#{msg['producto.boton.eliminar']}" action="#{productoController.eliminar(prod)}"
                                        onclick="return confirm('Esta seguro que desea eliminar?')"
@@ -89,7 +89,7 @@
 
             </p:dataTable>
 
-            <p:dialog header="#{productoController.producto.id>0?msg['producto.boton.editar']:msg['producto.boton.crear']} #{msg['producto.texto']}"
+            <p:dialog rendered="#{p:ifGranted('ADMIN')}" header="#{productoController.producto.id>0?msg['producto.boton.editar']:msg['producto.boton.crear']} #{msg['producto.texto']}"
                       widgetVar="dialogForm" minHeight="200" minWidth="500" showEffect="fade" modal="true">
                 <p:ajax event="close" listener="#{productoController.cerrarDialogo}" update="formProducto"/>
                 <ui:include src="form.xhtml"/>
