@@ -11,7 +11,7 @@
     <h:head>
         <meta charset="UTF-8"/>
         <title>#{titulo}</title>
-        <h:outputStylesheet library="webjars" name="primeflex/3.2.0/primeflex.min.css"/>
+        <h:outputStylesheet library="webjars" name="primeflex/2.0.0/primeflex.min.css"/>
         <ui:insert name="head"/>
     </h:head>
     <h:body>
@@ -34,7 +34,7 @@
                     </p:menuitem>
 
                     <p:menuitem value="Login" outcome="login" icon="pi pi-fw pi-sign-in" rendered="#{empty p:userPrincipal()}"/>
-                    <p:menuitem value="Logout" action="#{logOutController.logout}" icon="pi pi-fw pi-sign-out" rendered="#{not empty p:userPrincipal()}"/>
+                    <p:menuitem value="Logout" action="#{logoutController.logout}" icon="pi pi-fw pi-sign-out" rendered="#{not empty p:userPrincipal()}"/>
                 </p:menubar>
             </h:form>
 

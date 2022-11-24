@@ -2,14 +2,11 @@ package org.jperez.webapp.jsf3.controllers;
 
 
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.inject.Model;
 import jakarta.enterprise.inject.Produces;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
 import org.jperez.webapp.jsf3.entities.Categoria;
 import org.jperez.webapp.jsf3.entities.Producto;
 import org.jperez.webapp.jsf3.services.ProductoService;
@@ -25,8 +22,7 @@ public class ProductoController {
 
     private Producto producto;
 
-    //    @Inject
-    @ApplicationScoped
+    @Inject
     private FacesContext facesContext;
 
     @Inject
@@ -45,27 +41,12 @@ public class ProductoController {
         producto = new Producto();
     }
 
-    public ProductoController() {
-        this.facesContext = FacesContext.getCurrentInstance();
-        facesContext.getExternalContext().getFlash().setKeepMessages(true);
-    }
-
-
     @Produces
     @Model
     public String titulo() {
         return bundle.getString("producto.texto.titulo");
     }
 
-//    @Produces
-//    @RequestScoped
-//    @Named("listado")
-//    public List<Producto> findAll() {
-//        return service.listar();
-//    }
-
-//    @Produces
-//    @Model
     public Producto producto() {
         this.producto = new Producto();
         if (id != null && id > 0) {
