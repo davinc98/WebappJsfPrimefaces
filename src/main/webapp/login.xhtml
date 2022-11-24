@@ -1,0 +1,40 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layouts/main.xhtml">
+
+    <ui:define name="content">
+
+        <p:panel header="Login" rendered="#{p:ifNoneGranted('ADMIN,USER')}">
+            <form action="j_security_check" method="post" id="formLogin">
+
+                <div class="p-field p-grid">
+                    <p:outputLabel value="Username" for="j_username" class="p-col-fixed"
+                                   style="width:200px;"/>
+                    <div class="p-col">
+                        <p:inputText id="j_username"/>
+                    </div>
+                </div>
+
+                <div class="p-field p-grid">
+                    <p:outputLabel value="Password" for="j_password" class="p-col-fixed"
+                                   style="width:200px;"/>
+                    <div class="p-col">
+                        <p:inputText type="password" id="j_password"/>
+                    </div>
+                </div>
+
+                <div class="p-field p-grid">
+                    <div class="p-col">
+                        <p:button onclick="submit()"
+                                  value="Login"
+                                  class="ui-button-outlined ui-button-success"/>
+                    </div>
+                </div>
+            </form>
+        </p:panel>
+        <p:panel header="Bienvenido, ya has iniciado sesion." rendered="#{p:ifAnyGranted('ADMIN,USER')}">
+            <p:linkButton outcome="index" value="Volver" styleClass="p-my-2"/>
+        </p:panel>
+    </ui:define>
+</ui:composition>
